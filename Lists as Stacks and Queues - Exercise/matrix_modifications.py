@@ -3,16 +3,19 @@ n = int(input())
 matrix = [[int(x) for x in input().split()] for _ in range(n)]
 
 while True:
-    command = input().split()
+    command = input()
     if command == "END":
         break
-    r, c, value = command[1:]
-    if r < 0 or r >= n or c < 0 or c > n:
-        continue
+    command = command.split()
+    r, c, value = map(int, command[1:])
 
-    if command[0] == "Add":
-        matrix[r][c] += value
-    elif command[0] == "Subtract":
-        matrix[r][c] -= value
+    if 0 <= r < n and 0 <= c < n:
+        if command[0] == "Add":
+            matrix[r][c] += value
+        elif command[0] == "Subtract":
+            matrix[r][c] -= value
+    else:
+        print("Invalid coordinates")
 
-[print(*row) for row in matrix]
+for row in matrix:
+    print(*row)
