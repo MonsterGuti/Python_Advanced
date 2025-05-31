@@ -28,7 +28,7 @@ for direction, move in possible_moves.items():
         b_row += move[0]
         b_col += move[1]
 
-    if eggs > max_eggs:
+    if eggs > max_eggs and egg_matrix:
         max_eggs = eggs
         max_eggs_matrix = egg_matrix
         max_position = direction
