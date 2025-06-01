@@ -1,24 +1,10 @@
-def add(*args):
-    return reduce(lambda x, y: x + y, args)
-
-
-def subtract(*args):
-    return reduce(lambda x, y: x - y, args)
-
-
-def multiply(*args):
-    return reduce(lambda x, y: x * y, args)
-
-
-def divide(*args):
-    return reduce(lambda x, y: x / y, args)
-
+from functools import reduce
 
 mapper = {
-    "+": add,
-    "-": subtract,
-    "*": multiply,
-    "/": divide
+    "+": lambda *args: reduce(lambda x, y: x + y, args),
+    "-": lambda *args: reduce(lambda x, y: x - y, args),
+    "*": lambda *args: reduce(lambda x, y: x * y, args),
+    "/": lambda *args: reduce(lambda x, y: x / y, args)
 }
 
 
