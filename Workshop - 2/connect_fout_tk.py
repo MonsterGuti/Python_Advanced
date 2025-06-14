@@ -1,10 +1,6 @@
 import tkinter as tk
 
 
-class InvalidColumnError(Exception):
-    pass
-
-
 class FullColumnError(Exception):
     pass
 
@@ -89,20 +85,21 @@ def is_winner(ma, r, c, player_n, slots=WIN_SLOTS):
     ])
 
 
-def handle_column_click(ma, labels, column_num, player_num, counter, rows, cols, slots_to_win, info_label):
+def handle_column_click(ma, labels, column_num, player_num, counter, rows, cols, slots_to_win, info_label, buttons):
     try:
         row, col = place_player_choice(ma, column_num, player_num)
         color = "red" if player_num == 1 else "blue"
         labels[row][col].config(bg=color)
 
-        if is_winner(ma, row, col, player_num, slots_to_win):
+        if is_winner(ma, row, col, player_n=player_num, slots=slots_to_win):
             info_label.config(text=f"Player {player_num} wins!", fg=color)
-            disable_all_buttons(labels)
+            disable_all_buttons(buttons)
             return player_num, counter
 
         counter += 1
         if counter == rows * cols:
             info_label.config(text="Draw!", fg="black")
+            disable_all_buttons(buttons)
             return player_num, counter
 
         next_player = 2 if player_num == 1 else 1
@@ -114,45 +111,52 @@ def handle_column_click(ma, labels, column_num, player_num, counter, rows, cols,
         return player_num, counter
 
 
-def disable_all_buttons(labels):
-    for row in labels:
-        for label in row:
-            label.unbind("<Button-1>")
+def disable_all_buttons(buttons):
+    for btn in buttons:
+        btn.config(state="disabled")
 
 
 def create_ui(root, rows, cols, slots_to_win):
+    root.grid_rowconfigure(tuple(range(rows + 3)), weight=1)
+    root.grid_columnconfigure(tuple(range(cols)), weight=1)
+
     matrix = create_matrix(rows, cols)
-    labels = [[tk.Label(root, text=" ", bg="white", relief="solid", width=4, height=2)
+    labels = [[tk.Label(root, text=" ", bg="white", relief="solid", font=("Arial", 20))
                for _ in range(cols)] for _ in range(rows)]
     for r in range(rows):
         for c in range(cols):
-            labels[r][c].grid(row=r + 1, column=c)
+            labels[r][c].grid(row=r + 1, column=c, sticky="nsew", padx=1, pady=1)
 
     game_state = {"player_num": 1, "counter": 0}
 
-    info_label = tk.Label(root, text="Player 1's turn", font=("Arial", 12))
-    info_label.grid(row=rows + 2, column=0, columnspan=cols)
+    info_label = tk.Label(root, text="Player 1's turn", font=("Arial", 18))
+    info_label.grid(row=rows + 2, column=0, columnspan=cols, sticky="nsew")
 
-    def make_click_handler(column_num):
+    buttons = []
+
+    def make_click_handler(column_num, btns):
         return lambda: (
             game_state.update({
                 "player_num": handle_column_click(
                     matrix, labels, column_num,
                     game_state["player_num"], game_state["counter"],
-                    rows, cols, slots_to_win, info_label
+                    rows, cols, slots_to_win, info_label, btns
                 )[0],
                 "counter": game_state["counter"] + 1 if matrix[0][column_num] == 0 else game_state["counter"]
             })
         )
 
     for col in range(cols):
-        btn = tk.Button(root, text="↓", width=4, height=2, bg="yellow", command=make_click_handler(col))
-        btn.grid(row=0, column=col)
+        btn = tk.Button(root, text="↓", font=("Arial", 16), bg="yellow")
+        btn.config(command=make_click_handler(col, buttons))
+        btn.grid(row=0, column=col, sticky="nsew", padx=1, pady=1)
+        buttons.append(btn)
 
 
 def start_game():
     root = tk.Tk()
     root.title("Connect Four")
+    root.state("zoomed")
     rows, cols, slots_to_win = 6, 7, 4
     create_ui(root, rows, cols, slots_to_win)
     root.mainloop()
