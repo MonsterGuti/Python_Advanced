@@ -1,2 +1,5 @@
 import pyfiglet
-print(pyfiglet.figlet_format("Hello"))
+
+user_input = input()
+
+print(pyfiglet.figlet_format(user_input))
