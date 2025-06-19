@@ -73,7 +73,7 @@ while initial_energy > 0:
     bee_position = next_position
 
     if initial_energy == 0:
-        if collected_nectar >= REQUIRED_HIVE_NECTAR and not is_revived:
+        if collected_nectar > REQUIRED_HIVE_NECTAR and not is_revived:
             initial_energy = collected_nectar - REQUIRED_HIVE_NECTAR
             collected_nectar = REQUIRED_HIVE_NECTAR
             is_revived = True
