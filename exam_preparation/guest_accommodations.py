@@ -35,4 +35,5 @@ def accommodate(*args, **kwargs):
 
     return result
 
+
 print(accommodate(1, 2, 4, 8, room_102=3, room_101=1, room_103=2))
