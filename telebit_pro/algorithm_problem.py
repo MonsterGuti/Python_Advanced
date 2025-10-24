@@ -1,7 +1,7 @@
 N, K = map(int, input().split())
 sheep_list = list(map(int, input().split()))
 sheep_list.sort(reverse=True)
-courses_min = sum(sheep_list) / K
+courses_min = max(sum(sheep_list) / K, max(sheep_list))
 min_values_courses = []
 
 sheep_index = 0
