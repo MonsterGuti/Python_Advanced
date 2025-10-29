@@ -10,9 +10,7 @@ for i in range(2):
     infected_row, infected_col = list(map(int, input().split()))
     orange_matrix[infected_row][infected_col] = 1
 
-updated_orange_matrix = []
-for row in range(rows):
-    updated_orange_matrix.append(orange_matrix[row])
+updated_orange_matrix = [row[:] for row in orange_matrix]
 
 
 day = 1
