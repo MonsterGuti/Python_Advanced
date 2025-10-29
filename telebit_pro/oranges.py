@@ -26,6 +26,8 @@ while day <= days:
                     updated_orange_matrix[row - 1][col] = 1
                 if col > 0:
                     updated_orange_matrix[row][col - 1] = 1
+                    
+    orange_matrix = [row[:] for row in updated_orange_matrix]
     day += 1
 
 healthy_oranges = 0
