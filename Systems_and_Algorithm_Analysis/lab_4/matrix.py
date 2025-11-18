@@ -15,10 +15,10 @@ for i in range(len(arr)):
         my_arr.append(arr[i][i])
         even_elements += 1
 
-odd_elements = 0
+negative_elements = 0
 for i in range(len(arr)):
-    if arr[i][len(arr) - i - 1] % 2 == 0:
-        odd_elements += 1
+    if arr[i][len(arr) - i - 1] < 0:
+        negative_elements += 1
         my_arr.append(arr[i][len(arr) - i - 1])
 
 min_element_row = 0
